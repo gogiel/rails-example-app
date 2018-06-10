@@ -1,10 +1,15 @@
 version: '3'
 services:
+  redis:
+    image: redis:4.0-alpine
+    volumes:
+      - redis_data:/data
   db:
     image: postgres:alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
   web:
+    image: rails-example
     build: .
     command: bin/docker/web_start
     volumes:
@@ -13,6 +18,22 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - redis
+    env_file:
+      - dev.env
+  worker:
+    image: rails-example
+    build: .
+    command: bin/docker/worker_start
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - web
+    env_file:
+      - dev.env
 
 volumes:
   postgres_data:
+  redis_data:
