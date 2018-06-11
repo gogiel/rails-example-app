@@ -10,5 +10,3 @@ ENV APP_PATH /app
 WORKDIR $APP_PATH
 COPY Gemfile Gemfile.lock $APP_PATH/
 RUN bundle
-
-EXPOSE 3000

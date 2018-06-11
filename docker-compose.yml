@@ -1,13 +1,5 @@
 version: '3'
 services:
-  redis:
-    image: redis:4.0-alpine
-    volumes:
-      - redis_data:/data
-  db:
-    image: postgres:alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
   web:
     image: rails-example
     build: .
@@ -33,6 +25,14 @@ services:
       - web
     env_file:
       - dev.env
+  redis:
+    image: redis:4.0-alpine
+    volumes:
+      - redis_data:/data
+  db:
+    image: postgres:alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data:
