@@ -1,24 +1,7 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is an example Rails app using Postgres, Redis and Sidekiq.
 
-Things you may want to cover:
+It is meant to be used locally using Docker and Docker Compose.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Visit [my blog](https://blog.jedrychowski.org) to learn more about Rails, Docker and Kubernetes.
