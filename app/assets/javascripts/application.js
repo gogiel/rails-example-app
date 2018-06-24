@@ -13,3 +13,5 @@
 //= require rails-ujs
 //= require activestorage
 //= require_tree .
+
+document.getElementById('js-test').innerText = 'Javascript test'
