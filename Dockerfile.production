@@ -1,0 +1,27 @@
+FROM ruby:2.5.1-alpine
+
+RUN apk add --no-cache --update build-base \
+                                postgresql-dev \
+                                nodejs \
+                                tzdata
+
+ENV RAILS_ENV production
+
+# Different layer for gems installation
+WORKDIR /app
+COPY Gemfile Gemfile.lock ./
+RUN bundle --deployment --without development test
+
+COPY app/ ./app/
+COPY bin/ ./bin/
+COPY config ./config/
+COPY db ./db/
+COPY lib ./lib/
+COPY public ./public/
+COPY config.ru package.json Rakefile ./
+
+RUN bundle exec rake assets:precompile
+RUN rm -rf tmp/
+
+ENV RAILS_SERVE_STATIC_FILES true
+ENV RAILS_LOG_TO_STDOUT true
