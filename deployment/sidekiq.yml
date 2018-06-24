@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rails-example-app-sidekiq
+spec:
+  selector:
+    matchLabels:
+      app: rails-example-app
+      tier: sidekiq
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: rails-example-app
+        tier: sidekiq
+    spec:
+      containers:
+        - name: rails-example-app-web
+          image: eu.gcr.io/sandbox-206715/rails-example-app-production:latest
+          command:
+            - bin/docker/worker_start
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: production-database
+                  key: host
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: production-database
+                  key: password
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: master.key
+                  key: master.key
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: url

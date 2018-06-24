@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: rails-example-app-migration-
+spec:
+  template:
+    spec:
+      containers:
+      - name: rails
+        image: eu.gcr.io/sandbox-206715/rails-example-app-production:latest
+        command: ["bin/rake", "db:create", "db:migrate"]
+        env:
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: production-database
+                key: host
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: production-database
+                key: password
+      restartPolicy: Never
+

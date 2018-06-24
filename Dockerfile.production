@@ -5,9 +5,6 @@ RUN apk add --no-cache --update build-base \
                                 nodejs \
                                 tzdata
 
-ENV RAILS_ENV production
-
-# Different layer for gems installation
 WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 RUN bundle --deployment --without development test
@@ -20,8 +17,8 @@ COPY lib ./lib/
 COPY public ./public/
 COPY config.ru package.json Rakefile ./
 
+ENV RAILS_ENV production
 RUN bundle exec rake assets:precompile
-RUN rm -rf tmp/
 
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
