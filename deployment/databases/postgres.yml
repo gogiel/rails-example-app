@@ -1,0 +1,8 @@
+postgresPassword: 7pFEZORRHG
+resources:
+  limits:
+    cpu: 0.5
+    memory: 512M
+  requests:
+    cpu: 0
+    memory: 128M

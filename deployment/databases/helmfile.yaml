@@ -1,0 +1,9 @@
+releases:
+  - name: redis-sandbox
+    chart: stable/redis
+    values:
+      - redis.yml
+  - name: postgres-sandbox
+    chart: stable/postgresql
+    values:
+      - postgres.yml
