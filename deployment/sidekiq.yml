@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: rails-example-app-web
-          image: eu.gcr.io/sandbox-206715/rails-example-app-production:latest
+          image: docker.io/janjedrychowski/rails-example-app-production:v1
           command:
             - bin/docker/worker_start
           env:
