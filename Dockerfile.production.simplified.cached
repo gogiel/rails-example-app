@@ -1,0 +1,18 @@
+FROM rails-example-app-master
+
+RUN apk add --no-cache --update build-base \
+                                postgresql-dev \
+                                nodejs \
+                                tzdata
+
+WORKDIR /app
+COPY Gemfile Gemfile.lock ./
+RUN bundle --deployment --without development test
+
+COPY . .
+
+ENV RAILS_ENV production
+RUN bundle exec rake assets:precompile
+
+ENV RAILS_SERVE_STATIC_FILES true
+ENV RAILS_LOG_TO_STDOUT true
