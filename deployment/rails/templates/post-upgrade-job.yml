@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{.Release.Name}}-post-upgrade"
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: post-upgrade-job
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["bundle", "exec", "rake", "db:migrate"]
+          env:
+            {{- include "rails_container_env" . | indent 12}}
