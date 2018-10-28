@@ -1,0 +1,21 @@
+# syntax = tonistiigi/dockerfile:runmount20180618
+FROM rails-example-app-master:latest
+
+RUN apk add --no-cache --update build-base \
+                                postgresql-dev \
+                                nodejs \
+                                tzdata
+
+RUN apk add --no-cache --update rsync
+
+WORKDIR /app
+COPY Gemfile Gemfile.lock ./
+RUN bundle --deployment --without development test
+
+RUN --mount=type=bind,source=.,target=/mounted-app rsync -ra /mounted-app/ /app
+
+ENV RAILS_ENV production
+RUN bundle exec rake assets:precompile
+
+ENV RAILS_SERVE_STATIC_FILES true
+ENV RAILS_LOG_TO_STDOUT true
