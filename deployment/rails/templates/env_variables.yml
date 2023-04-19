@@ -1,0 +1,7 @@
+{{- $fullName := include "rails.fullname" . -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullName }}-env-variables
+data:
+{{ toYaml .Values.env | indent 2 }}

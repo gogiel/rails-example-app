@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{.Release.Name}}-post-install"
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: post-install-job
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["sh"]
+          args: ["-c", "bundle exec rake db:migrate 2>/dev/null || bundle exec rake db:setup"]
+          env:
+            {{- include "rails_container_env" . | indent 12}}
